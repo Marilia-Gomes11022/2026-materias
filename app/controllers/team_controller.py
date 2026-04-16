@@ -6,18 +6,18 @@ from app.utils.response import success_response
 
 
 team_schema = TeamSchema()
-teams_schema = TeamSchema(many=True)
+team_schema = TeamSchema(many=True)
 
 
-def listar_mensagens():
-    mensagens = Message.query.all()
-    return success_response(messages_schema.dump(mensagens))
+def listar_equipe():
+    team = Team.query.all()
+    return success_response(team_schema.dump(team))
 
 
-def listar_mensagens_por_usuario(user_id):
-    user = User.query.get_or_404(user_id)
-    mensagens = user.messages
-    return success_response(messages_schema.dump(mensagens))
+def listar_equipes_por_usuario(user_id):
+    participant = Participant.query.get_or_404(participant_id)
+    team = participant.team
+    return success_response(team_schema.dump(team))
 
 
 def criar_equipe(data):
@@ -25,10 +25,10 @@ def criar_equipe(data):
 
     Participant.query.get_or_404(dados_validados["team_id"])
 
-    nova_mensagem = Team(**dados_validados)
+    nova_equipe = Team(**dados_validados)
 
-    db.session.add(nova_mensagem)
+    db.session.add(nova_equipe)
     db.session.commit()
 
-    return success_response(team_schema.dump(nova_mensagem), 201)
+    return success_response(team_schema.dump(nova_equipe), 201)
 
